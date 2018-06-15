@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="oracle," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="oracle11gR2下scott用户以及表的建立  在oralce数据库安装完成之后，没有scott用户以及练习表，如何建立用户以及系统提供的表呢？  操作步骤： 找到系统带的sql文件（utlsample.sql）12345[root@kyeup01 admin]# pwd/oracle/app/oracle/product/11.2.0/rdbms/admin[root@kyeup01 ad">
+<meta name="keywords" content="oracle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="oracle11gR2下scott用户以及表的建立.md">
+<meta property="og:url" content="https://kyeup.github.io/2018/06/15/oracle11gR2下scott用户以及表的建立/index.html">
+<meta property="og:site_name" content="Kyeup">
+<meta property="og:description" content="oracle11gR2下scott用户以及表的建立  在oralce数据库安装完成之后，没有scott用户以及练习表，如何建立用户以及系统提供的表呢？  操作步骤： 找到系统带的sql文件（utlsample.sql）12345[root@kyeup01 admin]# pwd/oracle/app/oracle/product/11.2.0/rdbms/admin[root@kyeup01 ad">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p9sk1hcki.bkt.clouddn.com/scott.emp.png">
+<meta property="og:updated_time" content="2018-06-15T04:02:47.304Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="oracle11gR2下scott用户以及表的建立.md">
+<meta name="twitter:description" content="oracle11gR2下scott用户以及表的建立  在oralce数据库安装完成之后，没有scott用户以及练习表，如何建立用户以及系统提供的表呢？  操作步骤： 找到系统带的sql文件（utlsample.sql）12345[root@kyeup01 admin]# pwd/oracle/app/oracle/product/11.2.0/rdbms/admin[root@kyeup01 ad">
+<meta name="twitter:image" content="http://p9sk1hcki.bkt.clouddn.com/scott.emp.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://kyeup.github.io/2018/06/15/oracle11gR2下scott用户以及表的建立/"/>
+
+
+
+
+
+  <title>oracle11gR2下scott用户以及表的建立.md | Kyeup</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Kyeup</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kyeup.github.io/2018/06/15/oracle11gR2下scott用户以及表的建立/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kyeup">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://p9tqjomtw.bkt.clouddn.com/black.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kyeup">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">oracle11gR2下scott用户以及表的建立.md</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-15T11:52:59+08:00">
+                2018-06-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Oracle/" itemprop="url" rel="index">
+                    <span itemprop="name">Oracle</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="oracle11gR2下scott用户以及表的建立"><a href="#oracle11gR2下scott用户以及表的建立" class="headerlink" title="oracle11gR2下scott用户以及表的建立"></a>oracle11gR2下scott用户以及表的建立</h1><hr>
+<blockquote>
+<p>在oralce数据库安装完成之后，没有scott用户以及练习表，如何建立用户以及系统提供的表呢？</p>
+</blockquote>
+<p><strong>操作步骤</strong>：</p>
+<h2 id="找到系统带的sql文件（utlsample-sql）"><a href="#找到系统带的sql文件（utlsample-sql）" class="headerlink" title="找到系统带的sql文件（utlsample.sql）"></a>找到系统带的sql文件（utlsample.sql）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@kyeup01 admin]# pwd</span><br><span class="line">/oracle/app/oracle/product/11.2.0/rdbms/admin</span><br><span class="line">[root@kyeup01 admin]# ll utlsampl.sql </span><br><span class="line">-rw-r<span class="comment">--r--. 1 oracle oinstall 3676 6月   2 2006 utlsampl.sql</span></span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+<h2 id="根据SQL的内容操作"><a href="#根据SQL的内容操作" class="headerlink" title="根据SQL的内容操作"></a>根据SQL的内容操作</h2><h3 id="新建用户并授权"><a href="#新建用户并授权" class="headerlink" title="新建用户并授权"></a>新建用户并授权</h3><a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-- 删除系统带的用户</span><br><span class="line">DROP USER SCOTT CASCADE;</span><br><span class="line">DROP USER ADAMS CASCADE;</span><br><span class="line">DROP USER JONES CASCADE;</span><br><span class="line">DROP USER CLARK CASCADE;</span><br><span class="line">DROP USER BLAKE CASCADE;</span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line">-- 授权scott相应的权限</span><br><span class="line">GRANT CONNECT,RESOURCE,UNLIMITED TABLESPACE TO SCOTT IDENTIFIED BY tiger;</span><br><span class="line"></span><br><span class="line">DROP PUBLIC SYNONYM PARTS;</span><br></pre></td></tr></table></figure>
+<h3 id="scott登录"><a href="#scott登录" class="headerlink" title="scott登录"></a>scott登录</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[oracle@kyeup01 admin]$ sqlplus &apos;/as sysdba&apos;</span><br><span class="line"></span><br><span class="line">SQL*Plus: Release 11.2.0.4.0 Production on Fri Jun 15 11:31:17 2018</span><br><span class="line">Copyright (c) 1982, 2013, Oracle.  All rights reserved.</span><br><span class="line">Connected to:</span><br><span class="line">Oracle Database 11g Enterprise Edition Release 11.2.0.4.0 - 64bit Production</span><br><span class="line">With the Partitioning, Automatic Storage Management, OLAP, Data Mining</span><br><span class="line">and Real Application Testing options</span><br><span class="line">SQL&gt; conn scott/tiger;</span><br><span class="line">Connected.</span><br></pre></td></tr></table></figure>
+<h3 id="表操作"><a href="#表操作" class="headerlink" title="表操作"></a>表操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE DEPT</span><br><span class="line">       (DEPTNO NUMBER(2) CONSTRAINT PK_DEPT PRIMARY KEY,</span><br><span class="line">	DNAME VARCHAR2(14) ,</span><br><span class="line">	LOC VARCHAR2(13) ) ;</span><br><span class="line">CREATE TABLE EMP</span><br><span class="line">       (EMPNO NUMBER(4) CONSTRAINT PK_EMP PRIMARY KEY,</span><br><span class="line">	ENAME VARCHAR2(10),</span><br><span class="line">	JOB VARCHAR2(9),</span><br><span class="line">	MGR NUMBER(4),</span><br><span class="line">	HIREDATE DATE,</span><br><span class="line">	SAL NUMBER(7,2),</span><br><span class="line">	COMM NUMBER(7,2),</span><br><span class="line">	DEPTNO NUMBER(2) CONSTRAINT FK_DEPTNO REFERENCES DEPT);</span><br><span class="line">INSERT INTO DEPT VALUES</span><br><span class="line">	(10,&apos;ACCOUNTING&apos;,&apos;NEW YORK&apos;);</span><br><span class="line">INSERT INTO DEPT VALUES (20,&apos;RESEARCH&apos;,&apos;DALLAS&apos;);</span><br><span class="line">INSERT INTO DEPT VALUES</span><br><span class="line">	(30,&apos;SALES&apos;,&apos;CHICAGO&apos;);</span><br><span class="line">INSERT INTO DEPT VALUES</span><br><span class="line">	(40,&apos;OPERATIONS&apos;,&apos;BOSTON&apos;);</span><br><span class="line">INSERT INTO EMP VALUES</span><br><span class="line">(7369,&apos;SMITH&apos;,&apos;CLERK&apos;,7902,to_date(&apos;17-12-1980&apos;,&apos;dd-mm-yyyy&apos;),800,NULL,20);</span><br><span class="line">INSERT INTO EMP VALUES</span><br><span class="line">(7499,&apos;ALLEN&apos;,&apos;SALESMAN&apos;,7698,to_date(&apos;20-2-1981&apos;,&apos;dd-mm-yyyy&apos;),1600,300,30);</span><br><span class="line">INSERT INTO EMP VALUES</span><br><span class="line">(7521,&apos;WARD&apos;,&apos;SALESMAN&apos;,7698,to_date(&apos;22-2-1981&apos;,&apos;dd-mm-yyyy&apos;),1250,500,30);</span><br><span class="line">INSERT INTO EMP VALUES</span><br><span class="line">(7566,&apos;JONES&apos;,&apos;MANAGER&apos;,7839,to_date(&apos;2-4-1981&apos;,&apos;dd-mm-yyyy&apos;),2975,NULL,20);</span><br><span class="line">INSERT INTO EMP VALUES</span><br><span class="line">(7654,&apos;MARTIN&apos;,&apos;SALESMAN&apos;,7698,to_date(&apos;28-9-1981&apos;,&apos;dd-mm-yyyy&apos;),1250,1400,30);</span><br><span class="line">INSERT INTO EMP VALUES</span><br><span class="line">(7698,&apos;BLAKE&apos;,&apos;MANAGER&apos;,7839,to_date(&apos;1-5-1981&apos;,&apos;dd-mm-yyyy&apos;),2850,NULL,30);</span><br><span class="line">INSERT INTO EMP VALUES</span><br><span class="line">(7782,&apos;CLARK&apos;,&apos;MANAGER&apos;,7839,to_date(&apos;9-6-1981&apos;,&apos;dd-mm-yyyy&apos;),2450,NULL,10);</span><br><span class="line">INSERT INTO EMP VALUES</span><br><span class="line">(7788,&apos;SCOTT&apos;,&apos;ANALYST&apos;,7566,to_date(&apos;13-JUL-87&apos;,&apos;dd-mm-rr&apos;)-85,3000,NULL,20);</span><br><span class="line">INSERT INTO EMP VALUES</span><br><span class="line">(7839,&apos;KING&apos;,&apos;PRESIDENT&apos;,NULL,to_date(&apos;17-11-1981&apos;,&apos;dd-mm-yyyy&apos;),5000,NULL,10);</span><br><span class="line">INSERT INTO EMP VALUES</span><br><span class="line">(7844,&apos;TURNER&apos;,&apos;SALESMAN&apos;,7698,to_date(&apos;8-9-1981&apos;,&apos;dd-mm-yyyy&apos;),1500,0,30);</span><br><span class="line">INSERT INTO EMP VALUES</span><br><span class="line">(7876,&apos;ADAMS&apos;,&apos;CLERK&apos;,7788,to_date(&apos;13-JUL-87&apos;, &apos;dd-mm-rr&apos;)-51,1100,NULL,20);</span><br><span class="line">INSERT INTO EMP VALUES</span><br><span class="line">(7900,&apos;JAMES&apos;,&apos;CLERK&apos;,7698,to_date(&apos;3-12-1981&apos;,&apos;dd-mm-yyyy&apos;),950,NULL,30);</span><br><span class="line">INSERT INTO EMP VALUES</span><br><span class="line">(7902,&apos;FORD&apos;,&apos;ANALYST&apos;,7566,to_date(&apos;3-12-1981&apos;,&apos;dd-mm-yyyy&apos;),3000,NULL,20);</span><br><span class="line">INSERT INTO EMP VALUES</span><br><span class="line">(7934,&apos;MILLER&apos;,&apos;CLERK&apos;,7782,to_date(&apos;23-1-1982&apos;,&apos;dd-mm-yyyy&apos;),1300,NULL,10);</span><br><span class="line">CREATE TABLE BONUS</span><br><span class="line">	(</span><br><span class="line">	ENAME VARCHAR2(10)	,</span><br><span class="line">	JOB VARCHAR2(9)  ,</span><br><span class="line">	SAL NUMBER,</span><br><span class="line">	COMM NUMBER</span><br><span class="line">	) ;</span><br><span class="line">CREATE TABLE SALGRADE</span><br><span class="line">      ( GRADE NUMBER,</span><br><span class="line">	LOSAL NUMBER,</span><br><span class="line">	HISAL NUMBER );</span><br><span class="line">INSERT INTO SALGRADE VALUES (1,700,1200);</span><br><span class="line">INSERT INTO SALGRADE VALUES (2,1201,1400);</span><br><span class="line">INSERT INTO SALGRADE VALUES (3,1401,2000);</span><br><span class="line">INSERT INTO SALGRADE VALUES (4,2001,3000);</span><br><span class="line">INSERT INTO SALGRADE VALUES (5,3001,9999);</span><br><span class="line">COMMIT;</span><br></pre></td></tr></table></figure>
+<h3 id="查询表（使用pl-sql）"><a href="#查询表（使用pl-sql）" class="headerlink" title="查询表（使用pl/sql）"></a>查询表（使用pl/sql）</h3><p><img src="http://p9sk1hcki.bkt.clouddn.com/scott.emp.png" alt="SCOTT.EMP"></p>
+<h1 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h1><p>以上的方法可能不是最优的方法，相当于把utlsample.sql手工执行了。<br>网上的资料大都是这样执行的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[oracle@kyeup01 admin]$ sqlplus &apos;/as sysdba&apos;</span><br><span class="line">SQL*Plus: Release 11.2.0.4.0 Production on Fri Jun 15 11:46:27 2018</span><br><span class="line">Copyright (c) 1982, 2013, Oracle.  All rights reserved.</span><br><span class="line">Connected to:</span><br><span class="line">Oracle Database 11g Enterprise Edition Release 11.2.0.4.0 - 64bit Production</span><br><span class="line">With the Partitioning, Automatic Storage Management, OLAP, Data Mining</span><br><span class="line">and Real Application Testing options</span><br><span class="line">SQL&gt; @/oracle/app/oracle/product/11.2.0/rdbms/admin/utlsample.sql</span><br><span class="line">SP2-0310: unable to open file &quot;/oracle/app/oracle/product/11.2.0/rdbms/admin/utlsample.sql&quot;</span><br></pre></td></tr></table></figure></p>
+<p>此操作出错，才进行手工操作的。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Better an empty purse than an empty head.</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat-reward-image.png" alt="kyeup 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay-reward-image.png" alt="kyeup 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/oracle/" rel="tag"># oracle</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/14/RHEL6.0 yum源设置/" rel="next" title="RHEL6.0 yum源设置">
+                <i class="fa fa-chevron-left"></i> RHEL6.0 yum源设置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzMzNi8xMzg3MA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://p9tqjomtw.bkt.clouddn.com/black.png"
+                alt="kyeup" />
+            
+              <p class="site-author-name" itemprop="name">kyeup</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#oracle11gR2下scott用户以及表的建立"><span class="nav-number">1.</span> <span class="nav-text">oracle11gR2下scott用户以及表的建立</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#找到系统带的sql文件（utlsample-sql）"><span class="nav-number">1.1.</span> <span class="nav-text">找到系统带的sql文件（utlsample.sql）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根据SQL的内容操作"><span class="nav-number">1.2.</span> <span class="nav-text">根据SQL的内容操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新建用户并授权"><span class="nav-number">1.2.1.</span> <span class="nav-text">新建用户并授权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scott登录"><span class="nav-number">1.2.2.</span> <span class="nav-text">scott登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表操作"><span class="nav-number">1.2.3.</span> <span class="nav-text">表操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询表（使用pl-sql）"><span class="nav-number">1.2.4.</span> <span class="nav-text">查询表（使用pl/sql）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#疑问"><span class="nav-number">2.</span> <span class="nav-text">疑问</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">kyeup</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
