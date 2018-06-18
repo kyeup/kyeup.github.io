@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux,NAS," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="需求说明：自建NAS，自备了两块3T的硬盘，如何操作才能正常的使用？思路说明：    按照自己的需求对两块3T硬盘分区；   对分区进行格式化；    挂载到某一目录（需设置开机自动挂载）   上传文件测试；  硬盘分区">
+<meta name="keywords" content="Linux,NAS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自建NAS如何使用大于2TB的硬盘(从分区开始）">
+<meta property="og:url" content="https://kyeup.github.io/2018/06/18/自建NAS如何使用大于2TB的硬盘/index.html">
+<meta property="og:site_name" content="Kyeup">
+<meta property="og:description" content="需求说明：自建NAS，自备了两块3T的硬盘，如何操作才能正常的使用？思路说明：    按照自己的需求对两块3T硬盘分区；   对分区进行格式化；    挂载到某一目录（需设置开机自动挂载）   上传文件测试；  硬盘分区">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-18T13:06:51.157Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自建NAS如何使用大于2TB的硬盘(从分区开始）">
+<meta name="twitter:description" content="需求说明：自建NAS，自备了两块3T的硬盘，如何操作才能正常的使用？思路说明：    按照自己的需求对两块3T硬盘分区；   对分区进行格式化；    挂载到某一目录（需设置开机自动挂载）   上传文件测试；  硬盘分区">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://kyeup.github.io/2018/06/18/自建NAS如何使用大于2TB的硬盘/"/>
+
+
+
+
+
+  <title>自建NAS如何使用大于2TB的硬盘(从分区开始） | Kyeup</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Kyeup</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kyeup.github.io/2018/06/18/自建NAS如何使用大于2TB的硬盘/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kyeup">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://p9tqjomtw.bkt.clouddn.com/black.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kyeup">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">自建NAS如何使用大于2TB的硬盘(从分区开始）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-18T21:05:08+08:00">
+                2018-06-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,345
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  18
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+
+    <div class="post-body" itemprop="articleBody">
+ 
+      
+      
+
+      
+        <hr>
+<p><strong>需求说明：</strong><br>自建NAS，自备了两块3T的硬盘，如何操作才能正常的使用？<br>思路说明：  </p>
+<ul>
+<li>按照自己的需求对两块3T硬盘分区；  </li>
+<li>对分区进行格式化；   </li>
+<li>挂载到某一目录（需设置开机自动挂载）  </li>
+<li>上传文件测试；  <h2 id="硬盘分区"><a href="#硬盘分区" class="headerlink" title="硬盘分区"></a>硬盘分区</h2><a id="more"></a>
+最常见的分区如下所示：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">#系统</span><br><span class="line">kyeup@kyeup-nas:~$ lsb_release -a</span><br><span class="line">No LSB modules are available.</span><br><span class="line">Distributor ID:	Debian</span><br><span class="line">Description:	Debian GNU/Linux 9.4 (stretch)</span><br><span class="line">Release:	9.4</span><br><span class="line">Codename:	stretch</span><br><span class="line">kyeup@kyeup-nas:~$ sudo fdisk -l</span><br><span class="line">[sudo] kyeup 的密码：</span><br><span class="line">Disk /dev/sda: 74.5 GiB, 80026361856 bytes, 156301488 sectors</span><br><span class="line">Units: sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disklabel type: gpt</span><br><span class="line">Disk identifier: E57E46D1-111A-4C41-BAFD-62AA237015D1</span><br><span class="line"></span><br><span class="line">Device         Start       End   Sectors  Size Type</span><br><span class="line">/dev/sda1       2048   1050623   1048576  512M EFI System</span><br><span class="line">/dev/sda2    1050624 148615167 147564544 70.4G Linux filesystem</span><br><span class="line">/dev/sda3  148615168 156301311   7686144  3.7G Linux swap</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Disk /dev/sdc: 2.7 TiB, 3000592982016 bytes, 5860533168 sectors</span><br><span class="line">Units: sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 4096 bytes</span><br><span class="line">I/O size (minimum/optimal): 4096 bytes / 4096 bytes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Disk /dev/sdb: 2.7 TiB, 3000592982016 bytes, 5860533168 sectors</span><br><span class="line">Units: sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 4096 bytes</span><br><span class="line">I/O size (minimum/optimal): 4096 bytes / 4096 bytes</span><br><span class="line">kyeup@kyeup-nas:~$ sudo fdisk /dev/sdb</span><br><span class="line"></span><br><span class="line">Welcome to fdisk (util-linux 2.29.2).</span><br><span class="line">Changes will remain in memory only, until you decide to write them.</span><br><span class="line">Be careful before using the write command.</span><br><span class="line"></span><br><span class="line">Device does not contain a recognized partition table.</span><br><span class="line">The size of this disk is 2.7 TiB (3000592982016 bytes). DOS partition table format can not be used on drives for volumes larger than 2199023255040 bytes for 512-byte sectors. Use GUID partition table format (GPT).</span><br><span class="line"></span><br><span class="line">Created a new DOS disklabel with disk identifier 0x4d35f874.</span><br><span class="line"></span><br><span class="line">Command (m for help): n</span><br><span class="line">Partition type</span><br><span class="line">   p   primary (0 primary, 0 extended, 4 free)</span><br><span class="line">   e   extended (container for logical partitions)</span><br><span class="line">Select (default p): p</span><br><span class="line">Partition number (1-4, default 1): </span><br><span class="line">First sector (2048-4294967295, default 2048): </span><br><span class="line">Last sector, +sectors or +size&#123;K,M,G,T,P&#125; (2048-4294967294, default 4294967294):   </span><br><span class="line"></span><br><span class="line">Created a new partition 1 of type &apos;Linux&apos; and of size 2 TiB.</span><br><span class="line"></span><br><span class="line">Command (m for help): p</span><br><span class="line">Disk /dev/sdb: 2.7 TiB, 3000592982016 bytes, 5860533168 sectors</span><br><span class="line">Units: sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 4096 bytes</span><br><span class="line">I/O size (minimum/optimal): 4096 bytes / 4096 bytes</span><br><span class="line">Disklabel type: dos</span><br><span class="line">Disk identifier: 0x4d35f874</span><br><span class="line"></span><br><span class="line">Device     Boot Start        End    Sectors Size Id Type</span><br><span class="line">/dev/sdb1        2048 4294967294 4294965247   2T 83 Linux</span><br><span class="line"></span><br><span class="line">Command (m for help): q</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>根据上面的提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The size of this disk is 2.7 TiB (3000592982016 bytes). DOS partition table format can not be used on drives for volumes larger than 2199023255040 bytes for 512-byte sectors. Use GUID partition table format (GPT).</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Device     Boot Start        End    Sectors Size Id Type</span><br><span class="line">/dev/sdb1        2048 4294967294 4294965247   2T 83 Linux</span><br></pre></td></tr></table></figure>
+<p><strong>MBR 分区表类型最大支持2T，对于大于2T的硬盘需要使用GPT分区</strong>。另外，fdisk只对mbr分区有效，故而使用==parted分区==。</p>
+<p><strong>MBR（Master Boot Record）</strong></p>
+<p>　　主引导记录，是传统的分区机制，应用于绝大多数使用BIOS的PC设备</p>
+<p>　　MBR支持32位和64位系统。</p>
+<p>　　MBR支持分区数量有限。</p>
+<p>　　MBR只支持不超过2T的硬盘，超过2T的硬盘将只能用2T空间（有第三方解决方法）。<br><strong>GPT（GUID Partition Table）</strong></p>
+<p>　　全局唯一标识分区表，是一个较新的分区机制，解决了MBR很多缺点。</p>
+<p>　　支持超过2T的磁盘（64位寻址空间）。fdisk最大只能建立2TB大小的分区，创建一个大于2TB的分区使用parted。</p>
+<p>　　向后兼容MBR。</p>
+<p>　　必须在支持uEFI的硬件上才能使用（Intel提出，用于取代BIOS）。</p>
+<p>　　必须使用64位系统。</p>
+<p>　　Mac、Linux系统都能支持GPT分区格式。</p>
+<p>　　Windows 7/8 64bit、Windows Server 2008 64bit支持GPT。</p>
+<p>　　以上就是Linux系统MBR和GPT分区的区别，总得来说GPT比MBR更先进，但是MBR的兼容性比GPT要好。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line">kyeup@kyeup-nas:/sys/block$ sudo parted /dev/sdb</span><br><span class="line">GNU Parted 3.2</span><br><span class="line">Using /dev/sdb</span><br><span class="line">Welcome to GNU Parted! Type &apos;help&apos; to view a list of commands.</span><br><span class="line">(parted) p                                                                </span><br><span class="line">Model: ATA WD30EZRZ-64D85Y0 (scsi)</span><br><span class="line">Disk /dev/sdb: 3001GB</span><br><span class="line">Sector size (logical/physical): 512B/4096B</span><br><span class="line">Partition Table: gpt</span><br><span class="line">Disk Flags: </span><br><span class="line"></span><br><span class="line">Number  Start  End  Size  File system  Name  Flags</span><br><span class="line"></span><br><span class="line">(parted) mkpart                                                           </span><br><span class="line">Partition name?  []? fun1</span><br><span class="line">File system type?  [ext2]? ext4</span><br><span class="line">Start? 0%</span><br><span class="line">End? 1T</span><br><span class="line">(parted) p                                                                </span><br><span class="line">Model: ATA WD30EZRZ-64D85Y0 (scsi)</span><br><span class="line">Disk /dev/sdb: 3001GB</span><br><span class="line">Sector size (logical/physical): 512B/4096B</span><br><span class="line">Partition Table: gpt</span><br><span class="line">Disk Flags: </span><br><span class="line"></span><br><span class="line">Number  Start   End     Size    File system  Name  Flags</span><br><span class="line"> 1      1049kB  1000GB  1000GB  ext4         fun1</span><br><span class="line"></span><br><span class="line">(parted) mkpart                                                           </span><br><span class="line">Partition name?  []? fun2                                                 </span><br><span class="line">File system type?  [ext2]? ext4</span><br><span class="line">Start? 1T                                                                 </span><br><span class="line">End? 100%                                                                 </span><br><span class="line">(parted) p                                                                </span><br><span class="line">Model: ATA WD30EZRZ-64D85Y0 (scsi)</span><br><span class="line">Disk /dev/sdb: 3001GB</span><br><span class="line">Sector size (logical/physical): 512B/4096B</span><br><span class="line">Partition Table: gpt</span><br><span class="line">Disk Flags: </span><br><span class="line"></span><br><span class="line">Number  Start   End     Size    File system  Name  Flags</span><br><span class="line"> 1      1049kB  1000GB  1000GB  ext4         fun1</span><br><span class="line"> 2      1000GB  3001GB  2001GB  ext4         fun2</span><br><span class="line"></span><br><span class="line">(parted) quit</span><br><span class="line">Information: You may need to update /etc/fstab.</span><br><span class="line"></span><br><span class="line">kyeup@kyeup-nas:~$ sudo parted /dev/sdc</span><br><span class="line">GNU Parted 3.2</span><br><span class="line">Using /dev/sdc</span><br><span class="line">Welcome to GNU Parted! Type &apos;help&apos; to view a list of commands.</span><br><span class="line">(parted) p                                                                </span><br><span class="line">Model: ATA WD30EFRX-68EUZN0 (scsi)</span><br><span class="line">Disk /dev/sdc: 3001GB</span><br><span class="line">Sector size (logical/physical): 512B/4096B</span><br><span class="line">Partition Table: gpt</span><br><span class="line">Disk Flags: </span><br><span class="line"></span><br><span class="line">Number  Start  End  Size  File system  Name  Flags</span><br><span class="line"></span><br><span class="line">(parted) mkpart                                                           </span><br><span class="line">Partition name?  []? work1                                                </span><br><span class="line">File system type?  [ext2]? ext4</span><br><span class="line">Start? 0%                                                                 </span><br><span class="line">End? 1T                                                                   </span><br><span class="line">(parted) mkpart                                                           </span><br><span class="line">Partition name?  []? work2</span><br><span class="line">File system type?  [ext2]? ext4                                           </span><br><span class="line">Start? 1T                                                                 </span><br><span class="line">End? 100%                                                                 </span><br><span class="line">(parted) p                                                                </span><br><span class="line">Model: ATA WD30EFRX-68EUZN0 (scsi)</span><br><span class="line">Disk /dev/sdc: 3001GB</span><br><span class="line">Sector size (logical/physical): 512B/4096B</span><br><span class="line">Partition Table: gpt</span><br><span class="line">Disk Flags: </span><br><span class="line"></span><br><span class="line">Number  Start   End     Size    File system  Name   Flags</span><br><span class="line"> 1      1049kB  1000GB  1000GB  ext4         work1</span><br><span class="line"> 2      1000GB  3001GB  2001GB  ext4         work2</span><br><span class="line"></span><br><span class="line">(parted) quit                                                             </span><br><span class="line">Information: You may need to update /etc/fstab.</span><br><span class="line"></span><br><span class="line">kyeup@kyeup-nas:~$ sudo fdisk -l</span><br><span class="line">Disk /dev/sda: 74.5 GiB, 80026361856 bytes, 156301488 sectors</span><br><span class="line">Units: sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disklabel type: gpt</span><br><span class="line">Disk identifier: E57E46D1-111A-4C41-BAFD-62AA237015D1</span><br><span class="line"></span><br><span class="line">Device         Start       End   Sectors  Size Type</span><br><span class="line">/dev/sda1       2048   1050623   1048576  512M EFI System</span><br><span class="line">/dev/sda2    1050624 148615167 147564544 70.4G Linux filesystem</span><br><span class="line">/dev/sda3  148615168 156301311   7686144  3.7G Linux swap</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Disk /dev/sdc: 2.7 TiB, 3000592982016 bytes, 5860533168 sectors</span><br><span class="line">Units: sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 4096 bytes</span><br><span class="line">I/O size (minimum/optimal): 4096 bytes / 4096 bytes</span><br><span class="line">Disklabel type: gpt</span><br><span class="line">Disk identifier: 16CD8258-758E-4FE4-B198-DF40ABE49BE3</span><br><span class="line"></span><br><span class="line">Device          Start        End    Sectors   Size Type</span><br><span class="line">/dev/sdc1        2048 1953124351 1953122304 931.3G Linux filesystem</span><br><span class="line">/dev/sdc2  1953124352 5860532223 3907407872   1.8T Linux filesystem</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Disk /dev/sdb: 2.7 TiB, 3000592982016 bytes, 5860533168 sectors</span><br><span class="line">Units: sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 4096 bytes</span><br><span class="line">I/O size (minimum/optimal): 4096 bytes / 4096 bytes</span><br><span class="line">Disklabel type: gpt</span><br><span class="line">Disk identifier: BD41449F-41EB-43DB-B797-185363963AE1</span><br><span class="line"></span><br><span class="line">Device          Start        End    Sectors   Size Type</span><br><span class="line">/dev/sdb1        2048 1953124351 1953122304 931.3G Linux filesystem</span><br><span class="line">/dev/sdb2  1953124352 5860532223 3907407872   1.8T Linux filesystem</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>Start? ==0%==<br>End? 1T<br>(parted) mkpart<br>Partition name?  []? work2<br>File system type?  [ext2]? ext4<br>Start? 1T<br>End? ==100%== </p>
+</blockquote>
+<h2 id="对分区进行格式化"><a href="#对分区进行格式化" class="headerlink" title="对分区进行格式化"></a>对分区进行格式化</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">kyeup@kyeup-nas:~$ sudo fdisk -l</span><br><span class="line">Disk /dev/sda: 74.5 GiB, 80026361856 bytes, 156301488 sectors</span><br><span class="line">Units: sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 512 bytes</span><br><span class="line">I/O size (minimum/optimal): 512 bytes / 512 bytes</span><br><span class="line">Disklabel type: gpt</span><br><span class="line">Disk identifier: E57E46D1-111A-4C41-BAFD-62AA237015D1</span><br><span class="line"></span><br><span class="line">Device         Start       End   Sectors  Size Type</span><br><span class="line">/dev/sda1       2048   1050623   1048576  512M EFI System</span><br><span class="line">/dev/sda2    1050624 148615167 147564544 70.4G Linux filesystem</span><br><span class="line">/dev/sda3  148615168 156301311   7686144  3.7G Linux swap</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Disk /dev/sdc: 2.7 TiB, 3000592982016 bytes, 5860533168 sectors</span><br><span class="line">Units: sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 4096 bytes</span><br><span class="line">I/O size (minimum/optimal): 4096 bytes / 4096 bytes</span><br><span class="line">Disklabel type: gpt</span><br><span class="line">Disk identifier: 16CD8258-758E-4FE4-B198-DF40ABE49BE3</span><br><span class="line"></span><br><span class="line">Device          Start        End    Sectors   Size Type</span><br><span class="line">/dev/sdc1        2048 1953124351 1953122304 931.3G Linux filesystem</span><br><span class="line">/dev/sdc2  1953124352 5860532223 3907407872   1.8T Linux filesystem</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Disk /dev/sdb: 2.7 TiB, 3000592982016 bytes, 5860533168 sectors</span><br><span class="line">Units: sectors of 1 * 512 = 512 bytes</span><br><span class="line">Sector size (logical/physical): 512 bytes / 4096 bytes</span><br><span class="line">I/O size (minimum/optimal): 4096 bytes / 4096 bytes</span><br><span class="line">Disklabel type: gpt</span><br><span class="line">Disk identifier: BD41449F-41EB-43DB-B797-185363963AE1</span><br><span class="line"></span><br><span class="line">Device          Start        End    Sectors   Size Type</span><br><span class="line">/dev/sdb1        2048 1953124351 1953122304 931.3G Linux filesystem</span><br><span class="line">/dev/sdb2  1953124352 5860532223 3907407872   1.8T Linux filesystem</span><br><span class="line">kyeup@kyeup-nas:~$ sudo mkfs.ext4 /dev/sdb1</span><br><span class="line">mke2fs 1.43.4 (31-Jan-2017)</span><br><span class="line">创建含有 244140288 个块（每块 4k）和 61038592 个inode的文件系统</span><br><span class="line">文件系统UUID：a5fc03f1-255b-4561-b3b2-9c17c324d935</span><br><span class="line">超级块的备份存储于下列块： </span><br><span class="line">	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, </span><br><span class="line">	4096000, 7962624, 11239424, 20480000, 23887872, 71663616, 78675968, </span><br><span class="line">	102400000, 214990848</span><br><span class="line"></span><br><span class="line">正在分配组表： 完成                            </span><br><span class="line">正在写入inode表： 完成                            </span><br><span class="line">创建日志（262144 个块）完成</span><br><span class="line">写入超级块和文件系统账户统计信息： 已完成   </span><br><span class="line"></span><br><span class="line">kyeup@kyeup-nas:~$ sudo mkfs.ext4 /dev/sdb2</span><br><span class="line">mke2fs 1.43.4 (31-Jan-2017)</span><br><span class="line">创建含有 488425984 个块（每块 4k）和 122109952 个inode的文件系统</span><br><span class="line">文件系统UUID：b4e66cc9-f7c0-489b-beda-8e5a481c61e0</span><br><span class="line">超级块的备份存储于下列块： </span><br><span class="line">	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, </span><br><span class="line">	4096000, 7962624, 11239424, 20480000, 23887872, 71663616, 78675968, </span><br><span class="line">	102400000, 214990848</span><br><span class="line"></span><br><span class="line">正在分配组表： 完成                            </span><br><span class="line">正在写入inode表： 完成                            </span><br><span class="line">创建日志（262144 个块）完成</span><br><span class="line">写入超级块和文件系统账户统计信息： 已完成     </span><br><span class="line"></span><br><span class="line">kyeup@kyeup-nas:~$ sudo mkfs.ext4 /dev/sdc1</span><br><span class="line">mke2fs 1.43.4 (31-Jan-2017)</span><br><span class="line">创建含有 244140288 个块（每块 4k）和 61038592 个inode的文件系统</span><br><span class="line">文件系统UUID：b568092d-ccba-47ca-ba38-af90db375983</span><br><span class="line">超级块的备份存储于下列块： </span><br><span class="line">	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, </span><br><span class="line">	4096000, 7962624, 11239424, 20480000, 23887872, 71663616, 78675968, </span><br><span class="line">	102400000, 214990848</span><br><span class="line"></span><br><span class="line">正在分配组表： 完成                            </span><br><span class="line">正在写入inode表： 完成                            </span><br><span class="line">创建日志（262144 个块）完成</span><br><span class="line">写入超级块和文件系统账户统计信息： 已完成   </span><br><span class="line"></span><br><span class="line">kyeup@kyeup-nas:~$ sudo mkfs.ext4 /dev/sdc2</span><br><span class="line">mke2fs 1.43.4 (31-Jan-2017)</span><br><span class="line">创建含有 488425984 个块（每块 4k）和 122109952 个inode的文件系统</span><br><span class="line">文件系统UUID：837dfafb-3cff-4c15-9bea-33cc18abc3bb</span><br><span class="line">超级块的备份存储于下列块： </span><br><span class="line">	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, </span><br><span class="line">	4096000, 7962624, 11239424, 20480000, 23887872, 71663616, 78675968, </span><br><span class="line">	102400000, 214990848</span><br><span class="line"></span><br><span class="line">正在分配组表： 完成                            </span><br><span class="line">正在写入inode表： 完成                            </span><br><span class="line">创建日志（262144 个块）完成</span><br><span class="line">写入超级块和文件系统账户统计信息： 已完成</span><br></pre></td></tr></table></figure>
+<h2 id="挂载到某一目录（需设置开机自动挂载）"><a href="#挂载到某一目录（需设置开机自动挂载）" class="headerlink" title="挂载到某一目录（需设置开机自动挂载）"></a>挂载到某一目录（需设置开机自动挂载）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">kyeup@kyeup-nas:~$ sudo blkid</span><br><span class="line">/dev/sda1: UUID=&quot;8982-B086&quot; TYPE=&quot;vfat&quot; PARTUUID=&quot;b5461768-be0f-4ff2-bccb-44ebc7f84a5d&quot;</span><br><span class="line">/dev/sda2: UUID=&quot;17dbffb4-ff98-4ba4-b0c0-270d0ac12f07&quot; TYPE=&quot;ext4&quot; PARTUUID=&quot;4be18a0f-4d18-47a5-8c94-580251b97803&quot;</span><br><span class="line">/dev/sda3: UUID=&quot;effcd1ac-b4ed-4c62-894c-66aca5fc61f2&quot; TYPE=&quot;swap&quot; PARTUUID=&quot;4a1dfc34-9c37-4345-8516-7e5d868eaef6&quot;</span><br><span class="line">/dev/sdc1: UUID=&quot;b568092d-ccba-47ca-ba38-af90db375983&quot; TYPE=&quot;ext4&quot; PARTLABEL=&quot;work1&quot; PARTUUID=&quot;e57513c5-a3d4-4b5d-a4a7-0ab1980f153b&quot;</span><br><span class="line">/dev/sdc2: UUID=&quot;837dfafb-3cff-4c15-9bea-33cc18abc3bb&quot; TYPE=&quot;ext4&quot; PARTLABEL=&quot;work2&quot; PARTUUID=&quot;0a993b35-34b6-49fc-80e3-aac086304ff0&quot;</span><br><span class="line">/dev/sdb1: UUID=&quot;a5fc03f1-255b-4561-b3b2-9c17c324d935&quot; TYPE=&quot;ext4&quot; PARTLABEL=&quot;fun1&quot; PARTUUID=&quot;00edb0eb-153a-41bd-9aa8-99749c1dac4a&quot;</span><br><span class="line">/dev/sdb2: UUID=&quot;b4e66cc9-f7c0-489b-beda-8e5a481c61e0&quot; TYPE=&quot;ext4&quot; PARTLABEL=&quot;fun2&quot; PARTUUID=&quot;dc10cdd3-4d52-47f7-be6d-85e04f7c1acd&quot;</span><br><span class="line">#新建挂载的目录 </span><br><span class="line">kyeup@kyeup-nas:~$ sudo mkdir /fun1 /fun2 /work1 /work2</span><br><span class="line">#编辑 /etc/fstab</span><br><span class="line">kyeup@kyeup-nas:~$ sudo cat /etc/fstab</span><br><span class="line"># /etc/fstab: static file system information.</span><br><span class="line">#</span><br><span class="line"># Use &apos;blkid&apos; to print the universally unique identifier for a</span><br><span class="line"># device; this may be used with UUID= as a more robust way to name devices</span><br><span class="line"># that works even if disks are added and removed. See fstab(5).</span><br><span class="line">#</span><br><span class="line"># &lt;file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;       &lt;dump&gt;  &lt;pass&gt;</span><br><span class="line"># / was on /dev/sda2 during installation</span><br><span class="line">UUID=17dbffb4-ff98-4ba4-b0c0-270d0ac12f07 /               ext4    errors=remount-ro 0       1</span><br><span class="line"># /boot/efi was on /dev/sda1 during installation</span><br><span class="line">UUID=8982-B086  /boot/efi       vfat    umask=0077      0       1</span><br><span class="line"># swap was on /dev/sda3 during installation</span><br><span class="line">UUID=effcd1ac-b4ed-4c62-894c-66aca5fc61f2 none            swap    sw              0       0</span><br><span class="line"></span><br><span class="line">UUID=a5fc03f1-255b-4561-b3b2-9c17c324d935		/fun1	ext4	defaults	0      0</span><br><span class="line"></span><br><span class="line">UUID=b4e66cc9-f7c0-489b-beda-8e5a481c61e0		/fun2	ext4	defaults	0      0</span><br><span class="line"></span><br><span class="line">UUID=b568092d-ccba-47ca-ba38-af90db375983		/work1	ext4	defaults	0      0</span><br><span class="line"></span><br><span class="line">UUID=837dfafb-3cff-4c15-9bea-33cc18abc3bb		/work2	ext4	defaults	0      0</span><br><span class="line">kyeup@kyeup-nas:~$ sudo mount -a</span><br><span class="line">kyeup@kyeup-nas:~$ df -h</span><br><span class="line">文件系统        容量  已用  可用 已用% 挂载点</span><br><span class="line">udev            1.8G     0  1.8G    0% /dev</span><br><span class="line">tmpfs           362M  5.5M  356M    2% /run</span><br><span class="line">/dev/sda2        69G  3.5G   62G    6% /</span><br><span class="line">tmpfs           1.8G     0  1.8G    0% /dev/shm</span><br><span class="line">tmpfs           5.0M  4.0K  5.0M    1% /run/lock</span><br><span class="line">tmpfs           1.8G     0  1.8G    0% /sys/fs/cgroup</span><br><span class="line">/dev/sda1       511M  132K  511M    1% /boot/efi</span><br><span class="line">tmpfs           362M     0  362M    0% /run/user/1000</span><br><span class="line">/dev/sdb1       916G   77M  870G    1% /fun1</span><br><span class="line">/dev/sdb2       1.8T   77M  1.7T    1% /fun2</span><br><span class="line">/dev/sdc1       916G   77M  870G    1% /work1</span><br><span class="line">/dev/sdc2       1.8T   77M  1.7T    1% /work2</span><br></pre></td></tr></table></figure>
+<h2 id="上传文件测试；"><a href="#上传文件测试；" class="headerlink" title="上传文件测试；"></a>上传文件测试；</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">kyeup@kyeup-nas:/fun2$ ls /fun[12] /work[12]</span><br><span class="line">/fun1:</span><br><span class="line">lost+found</span><br><span class="line"></span><br><span class="line">/fun2:</span><br><span class="line">lost+found</span><br><span class="line"></span><br><span class="line">/work1:</span><br><span class="line">lost+found</span><br><span class="line"></span><br><span class="line">/work2:</span><br><span class="line">lost+found</span><br><span class="line">kyeup@kyeup-nas:/fun1$ sudo mkdir movie</span><br><span class="line">kyeup@kyeup-nas:/fun1$ ls</span><br><span class="line">lost+found  movie</span><br><span class="line">kyeup@kyeup-nas:~$ sudo chown kyeup:kyeup /fun1/movie/</span><br><span class="line">kyeup@kyeup-nas:/fun1/movie$ mkdir study</span><br></pre></td></tr></table></figure>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>在分区的时候一定格外注意：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">kyeup@kyeup-nas:~$ sudo parted /dev/sdc</span><br><span class="line">GNU Parted 3.2</span><br><span class="line">Using /dev/sdc</span><br><span class="line">Welcome to GNU Parted! Type &apos;help&apos; to view a list of commands.</span><br><span class="line">(parted) mktable                                                          </span><br><span class="line">New disk label type? work1</span><br><span class="line">parted: invalid token: work1</span><br><span class="line">New disk label type? gpt                                                  </span><br><span class="line">(parted) mkpart</span><br><span class="line">Partition name?  []? work1                                                </span><br><span class="line">File system type?  [ext2]? ext4                                           </span><br><span class="line">Start? 0                                                                  </span><br><span class="line">End? 1T                                                                   </span><br><span class="line">Warning: The resulting partition is not properly aligned for best performance.</span><br><span class="line">Ignore/Cancel? i                                                          </span><br><span class="line">(parted) mkpart</span><br><span class="line">Partition name?  []? work2                                                </span><br><span class="line">File system type?  [ext2]? ext4                                           </span><br><span class="line">Start? 1T                                                                 </span><br><span class="line">End? 100%                                                                 </span><br><span class="line">(parted) p                                                                </span><br><span class="line">Model: ATA WD30EFRX-68EUZN0 (scsi)</span><br><span class="line">Disk /dev/sdc: 3001GB</span><br><span class="line">Sector size (logical/physical): 512B/4096B</span><br><span class="line">Partition Table: gpt</span><br><span class="line">Disk Flags: </span><br><span class="line"></span><br><span class="line">Number  Start   End     Size    File system  Name   Flags</span><br><span class="line"> 1      17.4kB  1000GB  1000GB  ext4         work1</span><br><span class="line"> 2      1000GB  3001GB  2001GB  ext4         work2</span><br></pre></td></tr></table></figure></p>
+<p>在start的时候，==不能输入 0 或者 1== ，在网上大多采用这种方法，但是在后面的格式化中出现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">kyeup@kyeup-nas:~$ sudo mkfs.ext4 /dev/sdb1</span><br><span class="line">mke2fs 1.43.4 (31-Jan-2017)</span><br><span class="line">/dev/sdb1 未对齐，偏移了 3072 个字节。</span><br><span class="line">这可能导致性能下降，建议重新进行分区。</span><br><span class="line">创建含有 244140620 个块（每块 4k）和 61038592 个inode的文件系统</span><br><span class="line">文件系统UUID：d16b9bfe-8485-4795-a4ef-aeb6bf2d914e</span><br><span class="line">超级块的备份存储于下列块： </span><br><span class="line">  32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, </span><br><span class="line">  4096000, 7962624, 11239424, 20480000, 23887872, 71663616, 78675968, </span><br><span class="line">  102400000, 214990848</span><br><span class="line"></span><br><span class="line">正在分配组表： 完成                            </span><br><span class="line">正在写入inode表： 完成                            </span><br><span class="line">创建日志（262144 个块）完成</span><br><span class="line">写入超级块和文件系统账户统计信息： 已完成</span><br></pre></td></tr></table></figure></p>
+<p>所以出现了“4K对齐”的问题，网上有解决办法，但是试过不行之有效，所以最好的办法是使用百分比（%）的方式划分。  </p>
+<p>希望大家遇到此类问题能很快的解决！o(∩_∩)o </p>
+
+      
+    </div>
+    
+    
+    
+   <div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">****** 本文到此结束<i class="fa fa-paw"></i>感谢您的阅读******</div>
+        <div style="text-align:center;color: #ccc;font-size:14px;">**任何形式的转载都请联系作者获得授权并注明出处**</div>
+    
+</div>
+  
+  </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Better an empty purse than an empty head.</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat-reward-image.png" alt="kyeup 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay-reward-image.png" alt="kyeup 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/NAS/" rel="tag"># NAS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/15/oracle11gR2下scott用户以及表的建立/" rel="next" title="oracle11gR2下scott用户以及表的建立">
+                <i class="fa fa-chevron-left"></i> oracle11gR2下scott用户以及表的建立
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzMzNi8xMzg3MA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://p9tqjomtw.bkt.clouddn.com/black.png"
+                alt="kyeup" />
+            
+              <p class="site-author-name" itemprop="name">kyeup</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#硬盘分区"><span class="nav-number">1.</span> <span class="nav-text">硬盘分区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对分区进行格式化"><span class="nav-number">2.</span> <span class="nav-text">对分区进行格式化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#挂载到某一目录（需设置开机自动挂载）"><span class="nav-number">3.</span> <span class="nav-text">挂载到某一目录（需设置开机自动挂载）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上传文件测试；"><span class="nav-number">4.</span> <span class="nav-text">上传文件测试；</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充"><span class="nav-number">5.</span> <span class="nav-text">补充</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">kyeup</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">6.5k</span>
+  
+</div>
+
+
+<!--  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://kyeup.github.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider"
+-->
+<div>路漫漫其修远兮 吾将上下而求索</div>
+<div>技术支持:754798423@qq.com</div>
+ <!-- </span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+-->
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
