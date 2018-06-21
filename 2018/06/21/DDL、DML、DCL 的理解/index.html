@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Kyeup">
 <meta property="og:description" content="DDL、DML 和 DCL 的理解  DDL（data definition language）数据库定义语言 的主要语句（操作）  Create 语句：可以创建数据库和数据库的一些对象。 Drop 语句：可以删除数据表、索引、触发程序、条件约束以及数据表的权限等。 Alter 语句：修改数据表定义及属性。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-21T14:59:08.284Z">
+<meta property="og:updated_time" content="2018-06-21T15:03:08.720Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DDL、DML、DCL、DQL的理解">
 <meta name="twitter:description" content="DDL、DML 和 DCL 的理解  DDL（data definition language）数据库定义语言 的主要语句（操作）  Create 语句：可以创建数据库和数据库的一些对象。 Drop 语句：可以删除数据表、索引、触发程序、条件约束以及数据表的权限等。 Alter 语句：修改数据表定义及属性。">
@@ -395,7 +395,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,032
+                  255
                 </span>
               
 
@@ -411,7 +411,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4
+                  1
                 </span>
               
             </div>
@@ -454,36 +454,7 @@
 <ul>
 <li>DQL</li>
 </ul>
-<p>select 语句</p>
-<h2 id="2、表空间创建相关参数说明"><a href="#2、表空间创建相关参数说明" class="headerlink" title="2、表空间创建相关参数说明"></a>2、表空间创建相关参数说明</h2><blockquote>
-<p>语法： CREATE  TABLESPACE  表 空间 名字    DATAFILE  ‘ 数 据文 件详 细信息 ‘  [EXTENT MANAGEMENT { LOCAL {AUTOALLOCATE | UNIFORM [SIZE INTETER [K|M] ] } } ]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; select file_name from dba_data_files;</span><br><span class="line"></span><br><span class="line">FILE_NAME</span><br><span class="line">--------------------------------------------------</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/system.271.978829205</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/sysaux.272.978829265</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/undotbs1.273.978829323</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/users.275.978829391</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/ts_example.277.978855421</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<p><strong>创建一个表空间并查看：</strong><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLESPACE</span> kye_tbs01 <span class="keyword">DATAFILE</span> <span class="string">'+DGSYSTEM/kyeupdb/datafile/kye01.dbf'</span></span><br><span class="line">       <span class="keyword">SIZE</span> <span class="number">250</span>M <span class="keyword">AUTOEXTEND</span> <span class="keyword">ON</span> <span class="keyword">NEXT</span> <span class="number">10</span>M <span class="keyword">MAXSIZE</span> <span class="keyword">UNLIMITED</span></span><br><span class="line"><span class="keyword">LOGGING</span></span><br><span class="line"><span class="keyword">ONLINE</span></span><br><span class="line"><span class="keyword">PERMANENT</span></span><br><span class="line"><span class="keyword">EXTENT</span> <span class="keyword">MANAGEMENT</span> <span class="keyword">LOCAL</span> <span class="keyword">AUTOALLOCATE</span> </span><br><span class="line"><span class="keyword">BLOCKSIZE</span> <span class="number">8</span>K </span><br><span class="line"><span class="keyword">SEGMENT</span> <span class="keyword">SPACE</span> <span class="keyword">MANAGEMENT</span> <span class="keyword">AUTO</span> </span><br><span class="line"><span class="keyword">FLASHBACK</span> <span class="keyword">ON</span>;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_data_files <span class="keyword">where</span> tablespace_name=<span class="string">'KYE_TBS01'</span>;</span><br><span class="line">SQL&gt; select * from dba_data_files where tablespace_name='KYE_TBS01';</span><br><span class="line"></span><br><span class="line">FILE_NAME</span><br><span class="line"><span class="comment">--------------------------------------------------------------------------------</span></span><br><span class="line">   FILE_ID TABLESPACE_NAME		       BYTES	 BLOCKS STATUS</span><br><span class="line"><span class="comment">---------- ------------------------------ ---------- ---------- ---------</span></span><br><span class="line">RELATIVE_FNO AUT   MAXBYTES  MAXBLOCKS INCREMENT_BY USER_BYTES USER_BLOCKS</span><br><span class="line"><span class="comment">------------ --- ---------- ---------- ------------ ---------- -----------</span></span><br><span class="line">ONLINE_</span><br><span class="line"><span class="comment">-------</span></span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/kye01.dbf</span><br><span class="line">	 6 KYE_TBS01			   262144000	  32000 AVAILABLE</span><br><span class="line">	   6 YES 3.4360E+10    4194302	       1280  261095424	     31872</span><br><span class="line">ONLINE</span><br><span class="line"></span><br><span class="line">SQL&gt;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>LOGGING<br>LOGGING 这个是默认的参数, 指定表，视图，索引等的 logging 属性。</li>
-</ul>
-<p>该属性针对 undo 和 temporary 表空间不启作用。在表空间级别设置的 logging 属性可以被表等对象自身的属性覆盖。</p>
-<ul>
-<li>PERMANENT</li>
-</ul>
-<p>该选项主要用于指定表空间的类型， permanent 表示永久的，不写默认就是永久，如果是其他类型 ，则写 temporary 或者 undo。 如果是创建SYSAUX表空间，则必须指定extent managent类型和 segment space management 类型。</p>
-<ul>
-<li>extent management</li>
-</ul>
-<p>根据表空间中区的管理方式不周，表空间可以分为数据字典管理（ Dictionary managed） 与本地化管理（ Local Managed） 类型。</p>
-<p>在数据字典管理表空间中，区大小由参数：initial, next, minextents, maxextents, pctincrease 决 定。</p>
-<p>在本地化管理中，区大小设置方式分为 <code>uniform</code> 及 <code>autoallocate</code> 两种类型。 </p>
-<p>Uniform：区的大小相同。如果设置了 uniform 则 pctincrease 自动为 0。比如：uniform size 128k</p>
-<p>Autoallocate：区大小 oracle 自动分配 如：extent managent local uniform size 1M</p>
-<p>在 8i 中，字典管理还是默认的管理方式，当选择了 LOCAL 关键字，即表明这是一个本地管理的表空间。当然还可以继续选择更细的管理方式：是 AUTOALLOCATE 还是 UNIFORM。若为AUTOALLOCATE，则表明让 Oracle 来决定区块的使用办法；若选择了 UNIFORM，则还可以详细指定每个区块的大小，若不加指定，则为每个区使用 1M 大小。</p>
-<p>当自动分配时，发现开始第一个区分配 8 个块(64K), 到 17 区开始, 每个区分配 128 个块(大小 1M). 我做过实验当 initial 足够大时, 第一个区的大小不一定都是 64K, 可以是 1M, 8M, 64M 甚至是 256M。</p>
-<ol>
-<li><p>ORACLE 通过强制性的手段使本地管理表空间中的所有 Extent 是同样大小的, 尽管可能自定义了不同的存储参数. </p>
-</li>
-<li><p>在自动分配的本地管理的表空间中, 区间尺寸可能由以下尺寸组成 64K, 1M, 8M, 64M 甚至是 256M. 但是不管多大, 都有一个通用尺寸64k, 所以64K就是该表空间的位大小.</p>
-</li>
-</ol>
-<p>Oracle9i 之前的，通常是数据字典管理。 Oracle9i 及以后，通常使用本地化管理表空间。</p>
+<p>select 查询语句</p>
 
       
     </div>
@@ -562,6 +533,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/06/21/表空间的创建日常维护管理/" rel="prev" title="Oracle 表空间的日常维护与管理">
+                Oracle 表空间的日常维护与管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -617,17 +592,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -646,7 +612,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -692,22 +658,6 @@
       </section>
 
       
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#2、表空间创建相关参数说明"><span class="nav-number">1.</span> <span class="nav-text">2、表空间创建相关参数说明</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
 
       
 
@@ -735,7 +685,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">8.1k</span>
+    <span title="Site words total count">8.5k</span>
   
 </div>
 
