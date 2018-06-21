@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="1、创建数据表空间 查询有关表和视图：【使用版本Oracle 11gR2】1.查看表空间信息dba_tablespacesv$tablespace2.查看数据文件dba_data_filesv$datafile3.查看临时表空间dba_temp_filesv$tempfile    &amp;lt;！– more –&amp;gt;当前的数据文件位置：1234567891011SQL&amp;gt; col file_n">
+<meta name="description" content="1、创建数据表空间 查询有关表和视图：【使用版本Oracle 11gR2】1.查看表空间信息dba_tablespacesv$tablespace2.查看数据文件dba_data_filesv$datafile">
 <meta name="keywords" content="oracle">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Oracle 表空间的日常维护与管理">
 <meta property="og:url" content="https://kyeup.github.io/2018/06/21/表空间的创建日常维护管理/index.html">
 <meta property="og:site_name" content="Kyeup">
-<meta property="og:description" content="1、创建数据表空间 查询有关表和视图：【使用版本Oracle 11gR2】1.查看表空间信息dba_tablespacesv$tablespace2.查看数据文件dba_data_filesv$datafile3.查看临时表空间dba_temp_filesv$tempfile    &amp;lt;！– more –&amp;gt;当前的数据文件位置：1234567891011SQL&amp;gt; col file_n">
+<meta property="og:description" content="1、创建数据表空间 查询有关表和视图：【使用版本Oracle 11gR2】1.查看表空间信息dba_tablespacesv$tablespace2.查看数据文件dba_data_filesv$datafile">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-21T15:14:19.732Z">
+<meta property="og:updated_time" content="2018-06-21T15:18:10.176Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Oracle 表空间的日常维护与管理">
-<meta name="twitter:description" content="1、创建数据表空间 查询有关表和视图：【使用版本Oracle 11gR2】1.查看表空间信息dba_tablespacesv$tablespace2.查看数据文件dba_data_filesv$datafile3.查看临时表空间dba_temp_filesv$tempfile    &amp;lt;！– more –&amp;gt;当前的数据文件位置：1234567891011SQL&amp;gt; col file_n">
+<meta name="twitter:description" content="1、创建数据表空间 查询有关表和视图：【使用版本Oracle 11gR2】1.查看表空间信息dba_tablespacesv$tablespace2.查看数据文件dba_data_filesv$datafile">
 
 
 
@@ -395,7 +395,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,149
+                  1,148
                 </span>
               
 
@@ -434,9 +434,9 @@
 
       
         <h2 id="1、创建数据表空间"><a href="#1、创建数据表空间" class="headerlink" title="1、创建数据表空间"></a>1、创建数据表空间</h2><blockquote>
-<p><strong>查询有关表和视图</strong>：【使用版本Oracle 11gR2】<br>1.查看表空间信息<br>dba_tablespaces<br>v$tablespace<br>2.查看数据文件<br>dba_data_files<br>v$datafile<br>3.查看临时表空间<br>dba_temp_files<br>v$tempfile  </p>
+<p><strong>查询有关表和视图</strong>：【使用版本Oracle 11gR2】<br>1.查看表空间信息<br>dba_tablespaces<br>v$tablespace<br>2.查看数据文件<br>dba_data_files<br>v$datafile<br><a id="more"></a><br>3.查看临时表空间<br>dba_temp_files<br>v$tempfile  </p>
 </blockquote>
-<p>&lt;！– more –&gt;<br><strong>当前的数据文件位置</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; col file_name format a60;</span><br><span class="line">SQL&gt; select file_name from dba_data_files;</span><br><span class="line">FILE_NAME</span><br><span class="line">------------------------------------------------------------</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/system.271.978829205</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/sysaux.272.978829265</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/undotbs1.273.978829323</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/users.275.978829391</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/ts_example.277.978855421</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/kye01.dbf</span><br><span class="line">6 rows selected.</span><br></pre></td></tr></table></figure></p>
+<p><strong>当前的数据文件位置</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; col file_name format a60;</span><br><span class="line">SQL&gt; select file_name from dba_data_files;</span><br><span class="line">FILE_NAME</span><br><span class="line">------------------------------------------------------------</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/system.271.978829205</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/sysaux.272.978829265</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/undotbs1.273.978829323</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/users.275.978829391</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/ts_example.277.978855421</span><br><span class="line">+DGSYSTEM/kyeupdb/datafile/kye01.dbf</span><br><span class="line">6 rows selected.</span><br></pre></td></tr></table></figure></p>
 <ul>
 <li>创建单个数据文件的表空间<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; select tablespace_name from dba_tablespaces;</span><br><span class="line"></span><br><span class="line">TABLESPACE_NAME</span><br><span class="line">------------------------------</span><br><span class="line">SYSTEM</span><br><span class="line">SYSAUX</span><br><span class="line">UNDOTBS1</span><br><span class="line">TEMP</span><br><span class="line">USERS</span><br><span class="line">TS_EXAMPLE</span><br><span class="line">KYE_TBS01</span><br><span class="line"></span><br><span class="line">7 rows selected.</span><br><span class="line">SQL&gt; create tablespace kye_tbs02 datafile &apos;+DGSYSTEM/kyeupdb/datafile/kye02.dbf&apos; size 2M</span><br><span class="line">  2  autoextend off</span><br><span class="line">  3  segment space management auto;</span><br><span class="line"></span><br><span class="line">Tablespace created.</span><br></pre></td></tr></table></figure>
 </li>
