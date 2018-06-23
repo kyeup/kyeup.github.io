@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="解决debian 9 重启nameserver失效问题刚安装完debian9，用过之后会发现/etc/resolv.conf中配置文件重启后丢失，为了解决此问题需要安装包：&amp;lt;!-more–&amp;gt;resolfconf 安装resolvconf12345678910111213141516171819202122232425262728kyeup@Dellpri:~$ sudo apt-get">
+<meta name="description" content="解决debian 9 重启nameserver失效问题刚安装完debian9，用过之后会发现/etc/resolv.conf中配置文件重启后丢失，为了解决此问题需要安装包：">
 <meta name="keywords" content="linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="解决debian 9 重启nameserver失效问题">
 <meta property="og:url" content="https://kyeup.github.io/2018/06/23/解决debian 9 重启nameserver失效问题/index.html">
 <meta property="og:site_name" content="Kyeup">
-<meta property="og:description" content="解决debian 9 重启nameserver失效问题刚安装完debian9，用过之后会发现/etc/resolv.conf中配置文件重启后丢失，为了解决此问题需要安装包：&amp;lt;!-more–&amp;gt;resolfconf 安装resolvconf12345678910111213141516171819202122232425262728kyeup@Dellpri:~$ sudo apt-get">
+<meta property="og:description" content="解决debian 9 重启nameserver失效问题刚安装完debian9，用过之后会发现/etc/resolv.conf中配置文件重启后丢失，为了解决此问题需要安装包：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-23T10:10:18.427Z">
+<meta property="og:updated_time" content="2018-06-23T10:14:17.008Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="解决debian 9 重启nameserver失效问题">
-<meta name="twitter:description" content="解决debian 9 重启nameserver失效问题刚安装完debian9，用过之后会发现/etc/resolv.conf中配置文件重启后丢失，为了解决此问题需要安装包：&amp;lt;!-more–&amp;gt;resolfconf 安装resolvconf12345678910111213141516171819202122232425262728kyeup@Dellpri:~$ sudo apt-get">
+<meta name="twitter:description" content="解决debian 9 重启nameserver失效问题刚安装完debian9，用过之后会发现/etc/resolv.conf中配置文件重启后丢失，为了解决此问题需要安装包：">
 
 
 
@@ -395,7 +395,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  461
+                  460
                 </span>
               
 
@@ -433,7 +433,7 @@
       
 
       
-        <h1 id="解决debian-9-重启nameserver失效问题"><a href="#解决debian-9-重启nameserver失效问题" class="headerlink" title="解决debian 9 重启nameserver失效问题"></a>解决debian 9 重启nameserver失效问题</h1><p>刚安装完debian9，用过之后会发现/etc/resolv.conf中配置文件重启后丢失，为了解决此问题需要安装包：<br>&lt;!-more–&gt;<br>resolfconf</p>
+        <h1 id="解决debian-9-重启nameserver失效问题"><a href="#解决debian-9-重启nameserver失效问题" class="headerlink" title="解决debian 9 重启nameserver失效问题"></a>解决debian 9 重启nameserver失效问题</h1><p>刚安装完debian9，用过之后会发现/etc/resolv.conf中配置文件重启后丢失，为了解决此问题需要安装包：<br><a id="more"></a><br>resolfconf</p>
 <h2 id="安装resolvconf"><a href="#安装resolvconf" class="headerlink" title="安装resolvconf"></a>安装resolvconf</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">kyeup@Dellpri:~$ sudo apt-get install resolfconf</span><br><span class="line">正在读取软件包列表... 完成</span><br><span class="line">正在分析软件包的依赖关系树       </span><br><span class="line">正在读取状态信息... 完成       </span><br><span class="line">E: 无法定位软件包 resolfconf</span><br><span class="line">kyeup@Dellpri:~$ sudo apt-get install resolvconf</span><br><span class="line">正在读取软件包列表... 完成</span><br><span class="line">正在分析软件包的依赖关系树       </span><br><span class="line">正在读取状态信息... 完成       </span><br><span class="line">下列【新】软件包将被安装：</span><br><span class="line">  resolvconf</span><br><span class="line">升级了 0 个软件包，新安装了 1 个软件包，要卸载 0 个软件包，有 0 个软件包未被升级。</span><br><span class="line">需要下载 74.2 kB 的归档。</span><br><span class="line">解压缩后会消耗 196 kB 的额外空间。</span><br><span class="line">获取:1 http://mirrors.163.com/debian stretch/main amd64 resolvconf all 1.79 [74.2 kB]</span><br><span class="line">已下载 74.2 kB，耗时 0秒 (353 kB/s) </span><br><span class="line">正在预设定软件包 ...</span><br><span class="line">正在选中未选择的软件包 resolvconf。</span><br><span class="line">(正在读取数据库 ... 系统当前共安装有 98549 个文件和目录。)</span><br><span class="line">正准备解包 .../resolvconf_1.79_all.deb  ...</span><br><span class="line">正在解包 resolvconf (1.79) ...</span><br><span class="line">正在处理用于 systemd (232-25+deb9u3) 的触发器 ...</span><br><span class="line">正在处理用于 man-db (2.7.6.1-2) 的触发器 ...</span><br><span class="line">正在设置 resolvconf (1.79) ...</span><br><span class="line">Created symlink /etc/systemd/system/sysinit.target.wants/resolvconf.service → /lib/systemd/system/resolvconf.service.</span><br><span class="line">正在处理用于 systemd (232-25+deb9u3) 的触发器 ...</span><br><span class="line">正在处理用于 resolvconf (1.79) 的触发器 ...</span><br><span class="line">kyeup@Dellpri:~$</span><br></pre></td></tr></table></figure>
 <h2 id="编辑文件"><a href="#编辑文件" class="headerlink" title="编辑文件"></a>编辑文件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kyeup@Dellpri:~$ sudo nano /etc/resolvconf/resolv.conf.d/original </span><br><span class="line"># Generated by NetworkManager</span><br><span class="line">nameserver 219.146.1.66</span><br><span class="line">nameserver 219.147.1.66</span><br><span class="line"># 此处是自动获得的DNS</span><br></pre></td></tr></table></figure>
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>可以重启测试。</p>
