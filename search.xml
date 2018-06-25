@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[oracle数据库DB_NAME、DBID、DB_UNIQUE_NAME、SERVICE_NAME、SID、INSTANCE_NAME、GLOBAL_DATABASE_NAME的区别]]></title>
-    <url>%2F2018%2F06%2F25%2Foracle%E6%95%B0%E6%8D%AE%E5%BA%93DB_NAME%E3%80%81DBID%E3%80%81DB_UNIQUE_NAME%E3%80%81SERVICE_NAME%E3%80%81SID%E3%80%81INSTANCE_NAME%E3%80%81GLOBAL_DATABASE_NAME%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
+    <title><![CDATA[Oracle跟踪分析数据库启动的各个阶段]]></title>
+    <url>%2F2018%2F06%2F26%2FOracle%E8%B7%9F%E8%B8%AA%E5%88%86%E6%9E%90%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%AF%E5%8A%A8%E7%9A%84%E5%90%84%E4%B8%AA%E9%98%B6%E6%AE%B5%2F</url>
+    <content type="text"><![CDATA[演示如下： 启动到nomount状态12345678SYS@kyeupdbfs&gt; startup nomount;ORACLE instance started.Total System Global Area 1720328192 bytesFixed Size 2253944 bytesVariable Size 754977672 bytesDatabase Buffers 956301312 bytesRedo Buffers 6795264 bytes 设置trace1234567SYS@kyeupdbfs&gt; oradebug setmypid;Statement processed.SYS@kyeupdbfs&gt; oradebug tracefile_name;/oracle/app/oracle/diag/rdbms/kyeupdbfs/kyeupdbfs/trace/kyeupdbfs_ora_13343.trcSYS@kyeupdbfs&gt; alter session set events &apos;10046 trace name context forever,level 12&apos;;Session altered. 启动数据库到mount状态并打开1234567SYS@kyeupdbfs&gt; alter database mount;Database altered.SYS@kyeupdbfs&gt; alter database open;Database altered. 查阅trace1路径：/oracle/app/oracle/diag/rdbms/kyeupdbfs/kyeupdbfs/trace/kyeupdbfs_ora_13343.trc 查阅trace的另外方法 v$diag_info 视图123456789SYS@kyeupdbfs&gt; select * from v$diag_info where name like &apos;%Trace%&apos;; INST_ID NAME VALUE---------- -------------------- -------------------------------------------------- 1 Diag Trace /oracle/app/oracle/diag/rdbms/kyeupdbfs/kyeupdbfs/ trace 1 Default Trace File /oracle/app/oracle/diag/rdbms/kyeupdbfs/kyeupdbfs/ trace/kyeupdbfs_ora_13343.trc]]></content>
+      <categories>
+        <category>Oracle</category>
+      </categories>
+      <tags>
+        <tag>oracle</tag>
+        <tag>trace</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[oracle数据库DB_NAME、DBID、DB_UNIQUE_NAME等的区别]]></title>
+    <url>%2F2018%2F06%2F25%2Foracle%E6%95%B0%E6%8D%AE%E5%BA%93DB_NAME%E3%80%81DBID%E3%80%81DB_UNIQUE_NAME%E7%AD%89%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
     <content type="text"><![CDATA[DB_NAME①是数据库名，长度不能超过8个字符，记录在datafile、redolog和control file中 ②在DataGuard环境中DB_NAME相同而DB_UNIQUE_NAME不同 ③在RAC环境中，各个节点的DB_NAME 都相同，但是INSTANCE_NAME不同 ④DB_NAME还在动态注册监听的时候起作用，无论是否定义了SERVICE_NAME,PMON进程都会使用DB_NAME动态注册监听 DBID①DBID可以看做是DB_NAME在数据库内部的表示，它是在数据库创建的时候用DB_NAME结合算法计算出来的 ②它存在于datafile和control file中，用来表示数据文件的归属，所以DBID是唯一的，对于不同的数据库，DB_NAME可以是相同的，但是DBID一定是唯一的，例如在DataGuard中，主备库的DB_NAME相同，但是DBID一定不同（看过一个很形象的例子，就是可以有同名的人，但是身份证号码一定不同） DB_UNIQUE_NAME：①在DataGuard中，主备库拥有相同的DB_NAME，为了区别，就必须有不同的DB_UNIQUE_NAME ②DB_UNIQUE_NAME在DG中会影响动态注册的SERVICE_NAME，即如果采用的是动态注册，则注册的SERVICE_NAME为DB_UNIQUE_NAME，但是实例还是INSTANCE_NAME，即SID INSTANCE_NAME：①数据库实例的名称，INSTANCE_NAME默认值是SID，一般情况下和数据库名称（DB_NAME)相同，也可不同 ②initSID.ora 和orapwSID 文件要与INSTANCE_NAME保持一致 ③INSTANCE_NAME会影响进程的名称 SID：①是操作系统中的环境变量，和ORACLE_HOME,ORACLE_BASE用法相同 ②在操作系统中要想得到实例名，就必须使用ORACLE_SID。且ORACLE_SID必须与INSTANCE_NAME的值一致 SERVICE_NAME①数据库和客户端相连是使用的服务名 ②在DataGuard中，如果采用动态注册，建议在主备库使用相同的service_names ③在DataGuard中，如果采用静态注册，建议在主备库上的listener中输入相同的服务名(service_name) ④如果采监听采用了静态注册，那么SERVICE_NAME就等于Listener.ora文件中的GLOBAL_DATABASE_NAME的值 GLOBAL_DATABASE_NAME：①GLOBAL_DATABASE_NAME 是listener配置的对外网络连接名称，可以是任意值 ②在客户端配置监听的tnsnames.ora 文件中的service_name与这个GLOBAL_DBNAME 保持一致就可以了 ③配置静态监听注册时，需要输入SID和GLOBAL_NAME 本文摘自于地址：http://www.itpux.com/thread-236-1-1.html]]></content>
       <categories>
         <category>Oracle</category>
       </categories>
       <tags>
         <tag>oracle</tag>
+        <tag>base</tag>
       </tags>
   </entry>
   <entry>
@@ -19,7 +32,8 @@
         <category>Linux</category>
       </categories>
       <tags>
-        <tag>linux</tag>
+        <tag>debian</tag>
+        <tag>troubleshooting</tag>
       </tags>
   </entry>
   <entry>
@@ -31,6 +45,7 @@
       </categories>
       <tags>
         <tag>oracle</tag>
+        <tag>recovery</tag>
       </tags>
   </entry>
   <entry>
@@ -42,6 +57,7 @@
       </categories>
       <tags>
         <tag>oracle</tag>
+        <tag>maintenance</tag>
       </tags>
   </entry>
   <entry>
@@ -53,6 +69,7 @@
       </categories>
       <tags>
         <tag>oracle</tag>
+        <tag>base</tag>
       </tags>
   </entry>
   <entry>
@@ -64,6 +81,7 @@
       </categories>
       <tags>
         <tag>debian</tag>
+        <tag>driver</tag>
       </tags>
   </entry>
   <entry>
@@ -74,7 +92,7 @@
         <category>Linux</category>
       </categories>
       <tags>
-        <tag>apt-get源</tag>
+        <tag>apt-get源 - debian</tag>
       </tags>
   </entry>
   <entry>
@@ -98,6 +116,7 @@
       </categories>
       <tags>
         <tag>oracle</tag>
+        <tag>base</tag>
       </tags>
   </entry>
   <entry>
@@ -108,7 +127,7 @@
         <category>Linux</category>
       </categories>
       <tags>
-        <tag>yum源</tag>
+        <tag>yum源 - Linux</tag>
       </tags>
   </entry>
   <entry>
