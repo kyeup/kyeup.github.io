@@ -386,7 +386,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  573
+                  563
                 </span>
               
 
@@ -426,7 +426,7 @@
       
         
           
-            <h1 id="oracle数据库DB-NAME、DBID、DB-UNIQUE-NAME、SERVICE-NAME、SID、INSTANCE-NAME、GLOBAL-DATABASE-NAME的区别"><a href="#oracle数据库DB-NAME、DBID、DB-UNIQUE-NAME、SERVICE-NAME、SID、INSTANCE-NAME、GLOBAL-DATABASE-NAME的区别" class="headerlink" title="oracle数据库DB_NAME、DBID、DB_UNIQUE_NAME、SERVICE_NAME、SID、INSTANCE_NAME、GLOBAL_DATABASE_NAME的区别"></a>oracle数据库DB_NAME、DBID、DB_UNIQUE_NAME、SERVICE_NAME、SID、INSTANCE_NAME、GLOBAL_DATABASE_NAME的区别</h1><h2 id="DB-NAME"><a href="#DB-NAME" class="headerlink" title="DB_NAME"></a>DB_NAME</h2><p>①是数据库名，长度不能超过8个字符，记录在datafile、redolog和control file中 </p>
+            <h2 id="DB-NAME"><a href="#DB-NAME" class="headerlink" title="DB_NAME"></a>DB_NAME</h2><p>①是数据库名，长度不能超过8个字符，记录在datafile、redolog和control file中 </p>
 <p>②在DataGuard环境中DB_NAME相同而DB_UNIQUE_NAME不同 </p>
 <p>③在RAC环境中，各个节点的DB_NAME 都相同，但是INSTANCE_NAME不同 </p>
 <p>④DB_NAME还在动态注册监听的时候起作用，无论是否定义了SERVICE_NAME,PMON进程都会使用DB_NAME动态注册监听 </p>
@@ -446,7 +446,9 @@
 <h2 id="GLOBAL-DATABASE-NAME："><a href="#GLOBAL-DATABASE-NAME：" class="headerlink" title="GLOBAL_DATABASE_NAME："></a>GLOBAL_DATABASE_NAME：</h2><p>①GLOBAL_DATABASE_NAME 是listener配置的对外网络连接名称，可以是任意值 </p>
 <p>②在客户端配置监听的tnsnames.ora 文件中的service_name与这个GLOBAL_DBNAME 保持一致就可以了 </p>
 <p>③配置静态监听注册时，需要输入SID和GLOBAL_NAME</p>
-<p>本文地址：<a href="http://www.itpux.com/thread-236-1-1.html" target="_blank" rel="noopener">http://www.itpux.com/thread-236-1-1.html</a></p>
+<blockquote>
+<p>本文摘自于地址：<a href="http://www.itpux.com/thread-236-1-1.html" target="_blank" rel="noopener">http://www.itpux.com/thread-236-1-1.html</a></p>
+</blockquote>
 
           
         
