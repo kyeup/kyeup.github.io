@@ -68,6 +68,7 @@
 
 
 
+  <meta name="keywords" content="oracle,审计,迁移," />
 
 
 
@@ -77,13 +78,19 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Kyeup">
-<meta property="og:url" content="https://kyeup.github.io/tags/NAS/index.html">
+
+<meta name="description" content="在日常的数据库维护中，经常出现因为数据库登录审计的功能启动,导致system表空间被用满.从而出现异常,一般建议把aud$相关对象迁移到其他表空间,从而避免system被用完的风险.步骤如下：  创建审计用的表空间1234SYS@kyeupdbfs&amp;gt; create tablespace audit_data logging datafile &amp;apos;/oracle/oradata/ky">
+<meta name="keywords" content="oracle,审计,迁移">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle审计相关对象的迁移">
+<meta property="og:url" content="https://kyeup.github.io/2018/06/26/Oracle审计相关对象的迁移/index.html">
 <meta property="og:site_name" content="Kyeup">
+<meta property="og:description" content="在日常的数据库维护中，经常出现因为数据库登录审计的功能启动,导致system表空间被用满.从而出现异常,一般建议把aud$相关对象迁移到其他表空间,从而避免system被用完的风险.步骤如下：  创建审计用的表空间1234SYS@kyeupdbfs&amp;gt; create tablespace audit_data logging datafile &amp;apos;/oracle/oradata/ky">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-26T11:15:20.358Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kyeup">
+<meta name="twitter:title" content="Oracle审计相关对象的迁移">
+<meta name="twitter:description" content="在日常的数据库维护中，经常出现因为数据库登录审计的功能启动,导致system表空间被用满.从而出现异常,一般建议把aud$相关对象迁移到其他表空间,从而避免system被用完的风险.步骤如下：  创建审计用的表空间1234SYS@kyeupdbfs&amp;gt; create tablespace audit_data logging datafile &amp;apos;/oracle/oradata/ky">
 
 
 
@@ -113,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://kyeup.github.io/tags/NAS/"/>
+  <link rel="canonical" href="https://kyeup.github.io/2018/06/26/Oracle审计相关对象的迁移/"/>
 
 
 
 
 
-  <title>标签: NAS | Kyeup</title>
+  <title>Oracle审计相关对象的迁移 | Kyeup</title>
   
 
 
@@ -138,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -286,54 +293,253 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>NAS<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kyeup.github.io/2018/06/26/Oracle审计相关对象的迁移/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kyeup">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://p9tqjomtw.bkt.clouddn.com/black.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Kyeup">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/06/18/自建NAS如何使用大于2TB的硬盘/" itemprop="url">
-              
-                <span itemprop="name">自建NAS如何使用大于2TB的硬盘(从分区开始）</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Oracle审计相关对象的迁移</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-06-18T21:05:08+08:00"
-              content="2018-06-18" >
-          06-18
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-26T19:11:03+08:00">
+                2018-06-26
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Oracle/" itemprop="url" rel="index">
+                    <span itemprop="name">Oracle</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  228
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+
+    <div class="post-body" itemprop="articleBody">
+ 
+      
+      
+
+      
+        <blockquote>
+<p>在日常的数据库维护中，经常出现因为数据库登录审计的功能启动,导致system表空间被用满.从而出现异常,一般建议把aud$相关对象迁移到其他表空间,从而避免system被用完的风险.<br>步骤如下：</p>
+</blockquote>
+<h2 id="创建审计用的表空间"><a href="#创建审计用的表空间" class="headerlink" title="创建审计用的表空间"></a>创建审计用的表空间</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SYS@kyeupdbfs&gt; create tablespace audit_data logging datafile &apos;/oracle/oradata/kyeupdbfs/audit_data.dbf&apos;</span><br><span class="line">  2  size 20m autoextend off extent management local segment space management auto;</span><br><span class="line"></span><br><span class="line">Tablespace created.</span><br></pre></td></tr></table></figure>
+<h2 id="在线迁移"><a href="#在线迁移" class="headerlink" title="在线迁移"></a>在线迁移</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">SYS@kyeupdbfs&gt; alter table aud$ move tablespace audit_data;</span><br><span class="line"></span><br><span class="line">Table altered.</span><br><span class="line"></span><br><span class="line">SYS@kyeupdbfs&gt; alter table audit$ move tablespace audit_data;</span><br><span class="line"></span><br><span class="line">Table altered.</span><br><span class="line"></span><br><span class="line">SYS@kyeupdbfs&gt; alter table audit_actions move tablespace audit_data;</span><br><span class="line"></span><br><span class="line">Table altered.</span><br><span class="line"></span><br><span class="line">SYS@kyeupdbfs&gt; alter index i_audit rebuild online tablespace audit_data;</span><br><span class="line"></span><br><span class="line">Index altered.</span><br><span class="line"></span><br><span class="line">SYS@kyeupdbfs&gt; alter index i_audit_actions rebuild online tablespace audit_data;</span><br><span class="line"></span><br><span class="line">Index altered.</span><br></pre></td></tr></table></figure>
+<h2 id="查询结果"><a href="#查询结果" class="headerlink" title="查询结果"></a>查询结果</h2><p><code>`</code><br>select table_name,tablespace_name from dba_tables where table_name like ‘%AUD%’;<br>select index_name,tablespace_name from dba_indexes where table_name like ‘%AUD%’;<br>select table_name,tablespace_name from dba_tables where tablespace_name=’AUDIT_DATA’;<br>select index_name,tablespace_name from dba_indexes where tablespace_name=’AUDIT_DATA’;</p>
 
       
     </div>
+    
+    
+    
+   <div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">****** 本文到此结束<i class="fa fa-paw"></i>感谢您的阅读******</div>
+        <div style="text-align:center;color: #ccc;font-size:14px;">**任何形式的转载都请联系作者获得授权并注明出处**</div>
+    
+</div>
+  
+  </div>
+    
 
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>Better an empty purse than an empty head.</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechat-reward-image.png" alt="kyeup 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay-reward-image.png" alt="kyeup 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/oracle/" rel="tag"># oracle</a>
+          
+            <a href="/tags/审计/" rel="tag"># 审计</a>
+          
+            <a href="/tags/迁移/" rel="tag"># 迁移</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/26/Oracle跟踪分析数据库启动的各个阶段/" rel="next" title="Oracle跟踪分析数据库启动的各个阶段">
+                <i class="fa fa-chevron-left"></i> Oracle跟踪分析数据库启动的各个阶段
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -341,6 +547,15 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzMzNi8xMzg3MA=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -361,8 +576,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -429,6 +653,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建审计用的表空间"><span class="nav-number">1.</span> <span class="nav-text">创建审计用的表空间</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在线迁移"><span class="nav-number">2.</span> <span class="nav-text">在线迁移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询结果"><span class="nav-number">3.</span> <span class="nav-text">查询结果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -595,6 +835,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -623,6 +867,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
