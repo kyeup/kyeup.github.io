@@ -425,15 +425,17 @@
 
       
         
-          
-            <blockquote>
+          <blockquote>
 <p>在日常的数据库维护中，经常出现因为数据库登录审计的功能启动,导致system表空间被用满.从而出现异常,一般建议把aud$相关对象迁移到其他表空间,从而避免system被用完的风险.<br>步骤如下：</p>
 </blockquote>
 <h2 id="创建审计用的表空间"><a href="#创建审计用的表空间" class="headerlink" title="创建审计用的表空间"></a>创建审计用的表空间</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SYS@kyeupdbfs&gt; create tablespace audit_data logging datafile &apos;/oracle/oradata/kyeupdbfs/audit_data.dbf&apos;</span><br><span class="line">  2  size 20m autoextend off extent management local segment space management auto;</span><br><span class="line"></span><br><span class="line">Tablespace created.</span><br></pre></td></tr></table></figure>
-<h2 id="在线迁移"><a href="#在线迁移" class="headerlink" title="在线迁移"></a>在线迁移</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">SYS@kyeupdbfs&gt; alter table aud$ move tablespace audit_data;</span><br><span class="line"></span><br><span class="line">Table altered.</span><br><span class="line"></span><br><span class="line">SYS@kyeupdbfs&gt; alter table audit$ move tablespace audit_data;</span><br><span class="line"></span><br><span class="line">Table altered.</span><br><span class="line"></span><br><span class="line">SYS@kyeupdbfs&gt; alter table audit_actions move tablespace audit_data;</span><br><span class="line"></span><br><span class="line">Table altered.</span><br><span class="line"></span><br><span class="line">SYS@kyeupdbfs&gt; alter index i_audit rebuild online tablespace audit_data;</span><br><span class="line"></span><br><span class="line">Index altered.</span><br><span class="line"></span><br><span class="line">SYS@kyeupdbfs&gt; alter index i_audit_actions rebuild online tablespace audit_data;</span><br><span class="line"></span><br><span class="line">Index altered.</span><br></pre></td></tr></table></figure>
-<h2 id="查询结果"><a href="#查询结果" class="headerlink" title="查询结果"></a>查询结果</h2><p><code>`</code><br>select table_name,tablespace_name from dba_tables where table_name like ‘%AUD%’;<br>select index_name,tablespace_name from dba_indexes where table_name like ‘%AUD%’;<br>select table_name,tablespace_name from dba_tables where tablespace_name=’AUDIT_DATA’;<br>select index_name,tablespace_name from dba_indexes where tablespace_name=’AUDIT_DATA’;</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/26/Oracle审计相关对象的迁移/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
